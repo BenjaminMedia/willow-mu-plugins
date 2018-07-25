@@ -1,0 +1,20 @@
+{
+    "name": "bonnier/willow-mu-plugins",
+    "description": "A collection of Must Use WordPress Plugins for Willow",
+    "type": "wordpress-muplugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bonnier Publications",
+            "email": "interactive@bonnier.dk"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bonnier\\Willow\\MuPlugins\\": "src"
+        }
+    }
+}
