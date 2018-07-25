@@ -18,13 +18,8 @@ class OffloadS3
         $pluginToActivate = 'amazon-s3-and-cloudfront/wordpress-s3.php';
 
         if (file_exists(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $pluginToActivate)) {
-            $mustUsePlugins = [
-                'amazon-web-services/amazon-web-services.php',
-                $pluginToActivate
-            ];
-
             // Make sure the $activePlugins only contains the must use plugin once
-            return array_unique(array_merge($activePlugins, $mustUsePlugins));
+            return array_unique(array_push($activePlugins, $pluginToActivate));
         }
 
         return $activePlugins;
