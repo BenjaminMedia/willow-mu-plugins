@@ -19,7 +19,8 @@ class OffloadS3
 
         if (file_exists(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $pluginToActivate)) {
             // Make sure the $activePlugins only contains the must use plugin once
-            return array_unique(array_push($activePlugins, $pluginToActivate));
+            array_push($activePlugins, $pluginToActivate);
+            return array_unique($activePlugins);
         }
 
         return $activePlugins;
