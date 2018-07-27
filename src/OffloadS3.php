@@ -6,24 +6,9 @@ class OffloadS3
 {
     public function __construct()
     {
-        add_action('option_active_plugins', [$this, 'activatePlugin']);
-
         add_filter('as3cf_object_meta', [$this, 'setDownloadableFiles']);
 
         add_action('option_tantan_wordpress_s3', [$this, 'setOptions']);
-    }
-
-    public function activatePlugin($activePlugins)
-    {
-        $pluginToActivate = 'amazon-s3-and-cloudfront/wordpress-s3.php';
-
-        if (file_exists(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $pluginToActivate)) {
-            // Make sure the $activePlugins only contains the must use plugin once
-            array_push($activePlugins, $pluginToActivate);
-            return array_unique($activePlugins);
-        }
-
-        return $activePlugins;
     }
 
     public function setDownloadableFiles($args)
