@@ -9,4 +9,5 @@ Version: 1.0.0
 
 new \Bonnier\Willow\MuPlugins\DefaultPlugins();
 new \Bonnier\Willow\MuPlugins\OffloadS3();
+new \Bonnier\Willow\MuPlugins\RemoveCategorySlug();
 new \Bonnier\Willow\MuPlugins\TimeZone();
