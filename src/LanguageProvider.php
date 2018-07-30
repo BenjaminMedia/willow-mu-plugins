@@ -35,18 +35,17 @@ class LanguageProvider
      * Wrapper for pll_languages_list
      * Returns the list of languages
      *
-     * @param bool $hideEmpty Hide languages with no posts?
-     * @param string $format Either 'slug', 'locale' or 'name'
+     * @param array $args Argument list
      *
      * @return array|null
      */
-    public static function getLanguageList(bool $hideEmpty = false, string $format = 'slug'): ?array
+    public static function getLanguageList(array $args = []): ?array
     {
+        if (function_exists('PLL') && $list = PLL()->model->get_languages_list($args)) {
+            return $list;
+        }
         if (function_exists('pll_languages_list')) {
-            return pll_languages_list([
-                'hide_empty' => intval($hideEmpty),
-                'fields' => $format,
-            ]);
+            return pll_languages_list($args);
         }
 
         return null;
