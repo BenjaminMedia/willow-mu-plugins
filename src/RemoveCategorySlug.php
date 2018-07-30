@@ -129,6 +129,8 @@ class RemoveCategorySlug
 
     public function onActivationAndDeactivation()
     {
-        flush_rewrite_rules();
+        if (WP_ENV !== 'testing') {
+            flush_rewrite_rules();
+        }
     }
 }
