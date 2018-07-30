@@ -5,6 +5,16 @@ namespace Bonnier\Willow\MuPlugins;
 class LanguageProvider
 {
     /**
+     * True if Polylang is enabled and has a language.
+     *
+     * @return bool
+     */
+    public static function enabled(): bool
+    {
+        return boolval(self::getCurrentLanguage());
+    }
+
+    /**
      * Wrapper for pll_current_language
      * Returns the current language
      *
