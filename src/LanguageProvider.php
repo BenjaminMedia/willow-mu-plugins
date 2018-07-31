@@ -39,13 +39,27 @@ class LanguageProvider
      *
      * @return array|null
      */
-    public static function getLanguageList(array $args = []): ?array
+    public static function getSimpleLanguageList(array $args = []): ?array
     {
-        if (function_exists('PLL') && $list = PLL()->model->get_languages_list($args)) {
-            return $list;
-        }
         if (function_exists('pll_languages_list')) {
             return pll_languages_list($args);
+        }
+
+        return null;
+    }
+
+    /**
+     * Wrapper for PLL()->model->get_languages_list()
+     * Returns the detailed list of languages
+     *
+     * @param array $args Argument list
+     *
+     * @return array|null
+     */
+    public static function getLanguageList(array $args = []): ?array
+    {
+        if (function_exists('PLL')) {
+            return PLL()->model->get_languages_list($args);
         }
 
         return null;
