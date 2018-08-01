@@ -11,7 +11,7 @@ class LanguageProvider
      */
     public static function enabled(): bool
     {
-        return boolval(self::getCurrentLanguage());
+        return function_exists('PLL') && PLL()->model->get_languages_list();
     }
 
     /**
