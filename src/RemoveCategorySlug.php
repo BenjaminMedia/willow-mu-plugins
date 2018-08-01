@@ -129,7 +129,7 @@ class RemoveCategorySlug
 
     public function onActivationAndDeactivation()
     {
-        if (WP_ENV !== 'testing') {
+        if (defined('WP_ENV') && WP_ENV !== 'testing') {
             flush_rewrite_rules();
         }
     }
