@@ -73,11 +73,11 @@ class RemoveCategorySlug
     public function redirectOldCategoryUrl($queryVars)
     {
         if (isset($queryVars['rcb_category_redirect'])) {
-            $category_link = trailingslashit(get_option('home')) . user_trailingslashit(
+            $categoryLink = trailingslashit(get_option('home')) . user_trailingslashit(
                 $queryVars['rcb_category_redirect'],
                 'category'
             );
-            wp_redirect($category_link, 301);
+            wp_redirect($categoryLink, 301);
             exit;
         }
 
@@ -86,6 +86,7 @@ class RemoveCategorySlug
 
     public function addCategoryRewriteRules()
     {
+        /** @var \WP_Rewrite $wp_rewrite */
         global $wp_rewrite;
 
         $categoryRewrite = array();
@@ -118,11 +119,11 @@ class RemoveCategorySlug
         }
 
         // Redirect support for `old` category base
-        $old_base = $wp_rewrite->get_category_permastruct();
-        $old_base = str_replace('%category%', '(.+)', $old_base);
-        $old_base = trim($old_base, '/');
+        $oldBase = $wp_rewrite->get_category_permastruct();
+        $oldBase = str_replace('%category%', '(.+)', $oldBase);
+        $oldBase = trim($oldBase, '/');
 
-        $categoryRewrite[$old_base . '$'] = 'index.php?rcb_category_redirect=$matches[1]';
+        $categoryRewrite[$oldBase . '$'] = 'index.php?rcb_category_redirect=$matches[1]';
 
         return $categoryRewrite;
     }
