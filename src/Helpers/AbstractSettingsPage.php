@@ -2,15 +2,18 @@
 
 namespace Bonnier\Willow\MuPlugins\Helpers;
 
+use Bonnier\Willow\MuPlugins\Traits\LanguageTrait;
+
 abstract class AbstractSettingsPage
 {
+    use LanguageTrait;
+
     protected $settingsKey;
     protected $settingsGroup;
     protected $settingsSection;
     protected $settingsPage;
     protected $noticePrefix;
     protected $toolbarName;
-    protected $site;
     protected $title;
 
     /** @var array */
@@ -19,7 +22,7 @@ abstract class AbstractSettingsPage
     /**
      * Holds the values to be used in the fields callbacks
      */
-    private $settingsValues;
+    protected $settingsValues;
 
     /**
      * Start up
@@ -33,7 +36,6 @@ abstract class AbstractSettingsPage
             'settingsPage',
             'noticePrefix',
             'toolbarName',
-            'site',
             'title'
         ])->reject(function ($requiredProperty) {
             return !is_null($this->{$requiredProperty});
@@ -47,6 +49,11 @@ abstract class AbstractSettingsPage
         if (empty($this->settingsFields)) {
             throw new \RuntimeException('Settings Page is missing required settings fields!');
         }
+
+        $this->settingsValues = get_option($this->settingsKey);
+
+        add_action('admin_menu', [$this, 'addPluginPage']);
+        add_action('admin_init', [$this, 'registerSettings']);
     }
 
     public function printError($error)
@@ -76,10 +83,8 @@ abstract class AbstractSettingsPage
      */
     public function createAdminPage()
     {
-        // Set class property
         echo '<div class="wrap">';
         echo sprintf('<form method="post" action="%s">', get_admin_url(null, 'options.php'));
-        // This prints out all hidden setting fields
         settings_fields($this->settingsGroup);
         do_settings_sections($this->settingsPage);
         submit_button();
@@ -137,6 +142,12 @@ abstract class AbstractSettingsPage
                 }
                 if ($settingsField['type'] === 'text' || $settingsField['type'] === 'select') {
                     $sanitizedInput[$fieldKey] = sanitize_text_field($input[$fieldKey]);
+                }
+                if ($settingsField['type'] === 'callback') {
+                    $sanitizedInput[$fieldKey] = call_user_func_array(
+                        $settingsField['sanitize_callback'],
+                        [$input[$fieldKey]]
+                    );
                 }
             }
         }
@@ -200,41 +211,10 @@ abstract class AbstractSettingsPage
         $this->settingsFields = $languageFields;
     }
 
-    public function languagesIsEnabled()
-    {
-        return LanguageProvider::enabled();
-    }
-
-    public function getLanguages()
-    {
-        if ($this->languagesIsEnabled()) {
-            return LanguageProvider::getLanguageList();
-        }
-        return false;
-    }
-
-    /**
-     * Get the current language by looking at the current HTTP_HOST
-     *
-     * @return null|string
-     */
-    public function getCurrentLanguage()
-    {
-        if ($this->languagesIsEnabled()) {
-            return LanguageProvider::getCurrentLanguage('locale');
-        }
-        return null;
-    }
-
-    public function getCurrentLocale()
-    {
-        return $this->getCurrentLanguage() ?? null;
-    }
-
     protected function getSelectFieldOptions($field)
     {
         if (isset($field['options_callback'])) {
-            $options = call_user_func($field['options_callback'], $field['locale']);
+            $options = $this->{$field['options_callback']}($field['locale']);
             if ($options) {
                 return $options;
             }
@@ -250,7 +230,14 @@ abstract class AbstractSettingsPage
         }
 
         $name = $this->settingsKey . "[$fieldKey]";
-        $value = isset($this->settingsValues[$fieldKey]) ? esc_attr($this->settingsValues[$fieldKey]) : '';
+        $value = null;
+        if ($val = $this->settingsValues[$fieldKey] ?? false) {
+            if (is_array($val)) {
+                $value = $val;
+            } else {
+                $value = esc_attr($val);
+            }
+        }
         $checked = $value ? 'checked' : '';
 
         switch ($field['type']) {
@@ -262,6 +249,9 @@ abstract class AbstractSettingsPage
                 return true;
             case 'select':
                 $this->printSelectInput($field, $name, $value);
+                return true;
+            case 'callback':
+                $this->printCallbackInput($field, $name, $value);
                 return true;
         }
         return false;
@@ -302,5 +292,10 @@ abstract class AbstractSettingsPage
         $fieldOutput .= "</select>";
 
         echo $fieldOutput;
+    }
+
+    protected function printCallbackInput($field, $name, $value)
+    {
+        call_user_func_array($field['callback'], [$name, $value]);
     }
 }

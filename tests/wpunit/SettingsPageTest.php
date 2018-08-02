@@ -14,7 +14,6 @@ class SettingsPageTest extends WPTestCase
     protected $settingsSection = 'Test Section';
     protected $noticePrefix = 'Test Notice Prefix';
     protected $toolbarName = 'Test Toolbar Name';
-    protected $site = 'Test Site';
     protected $title = 'Test Title';
 
     protected $constructorArgs;
@@ -38,7 +37,6 @@ class SettingsPageTest extends WPTestCase
             'settingsSection' => $this->settingsSection,
             'noticePrefix' => $this->noticePrefix,
             'toolbarName' => $this->toolbarName,
-            'site' => $this->site,
             'title' => $this->title,
         ];
         $this->settingsFields = [
