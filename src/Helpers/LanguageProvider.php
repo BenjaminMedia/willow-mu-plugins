@@ -1,6 +1,6 @@
 <?php
 
-namespace Bonnier\Willow\MuPlugins;
+namespace Bonnier\Willow\MuPlugins\Helpers;
 
 class LanguageProvider
 {
