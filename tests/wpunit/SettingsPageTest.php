@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Bonnier\Willow\MuPlugins\Tests;
 
 use Bonnier\Willow\MuPlugins\Helpers\AbstractSettingsPage;
+use Bonnier\Willow\MuPlugins\Tests\Models\SettingsPage;
 use Codeception\TestCase\WPTestCase;
-use Tests\Models\SettingsPage;
 
 class SettingsPageTest extends WPTestCase
 {

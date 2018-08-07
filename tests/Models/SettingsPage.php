@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Models;
+namespace Bonnier\Willow\MuPlugins\Tests\Models;
 
 use Bonnier\Willow\MuPlugins\Helpers\AbstractSettingsPage;
 
