@@ -26,7 +26,15 @@ class DefaultPlugins
         $warnings = collect([]);
         collect($this->plugins)->each(function ($plugin) use (&$activePlugins, &$warnings) {
             if (file_exists(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $plugin)) {
-                array_push($activePlugins, $plugin);
+                if(!collect($activePlugins)->contains($plugin)) {
+                    // First time activation of plugin, so we must run activate_plugin to ensure db migration i run
+                    add_action('admin_init', function() use($plugin){
+                        activate_plugin($plugin);
+                    });
+                } else {
+                    // Plugin has been enabled before continue to enforce enable
+                    array_push($activePlugins, $plugin);
+                }
             } else {
                 $warnings->push(sprintf('<p>The plugin \'%s\' was not found!</p>', $plugin));
             }
