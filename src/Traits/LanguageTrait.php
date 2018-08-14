@@ -6,6 +6,8 @@ use Bonnier\Willow\MuPlugins\Helpers\LanguageProvider;
 
 trait LanguageTrait
 {
+    protected $currentLocale;
+
     public function languagesIsEnabled()
     {
         return LanguageProvider::enabled();
@@ -29,6 +31,15 @@ trait LanguageTrait
 
     public function getCurrentLocale()
     {
+        if ($locale = $this->currentLocale) {
+            return $locale;
+        }
+
         return $this->getCurrentLanguage() ?? null;
+    }
+
+    public function setCurrentLocale($locale)
+    {
+        $this->currentLocale = $locale;
     }
 }
