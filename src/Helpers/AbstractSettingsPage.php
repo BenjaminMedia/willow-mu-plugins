@@ -187,6 +187,8 @@ abstract class AbstractSettingsPage
 
         if ($locale) {
             $settingKey = $locale . '_' . $settingKey;
+        } elseif ($this->languagesIsEnabled()) {
+            $settingKey = $this->getCurrentLanguage() . '_' . $settingKey;
         }
 
         if (isset($this->settingsValues[$settingKey]) && !empty($this->settingsValues[$settingKey])) {
