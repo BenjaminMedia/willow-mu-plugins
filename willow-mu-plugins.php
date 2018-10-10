@@ -12,4 +12,4 @@ new \Bonnier\Willow\MuPlugins\OffloadS3();
 new \Bonnier\Willow\MuPlugins\RemoveCategorySlug();
 new \Bonnier\Willow\MuPlugins\TimeZone();
 
-add_action('plugins_loaded', [\Bonnier\Willow\MuPlugins\Helpers\LanguageProvider::class, 'registerSubdomain'], 1000);
+add_action('muplugins_loaded', [\Bonnier\Willow\MuPlugins\Helpers\LanguageProvider::class, 'registerSubdomain'], 1000);
