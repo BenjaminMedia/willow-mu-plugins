@@ -5,6 +5,24 @@ namespace Bonnier\Willow\MuPlugins\Helpers;
 class LanguageProvider
 {
     /**
+     * Register the current subdomain, so that Polylang
+     * can recognize it and localize the api output as expected.
+     */
+    public static function registerSubdomain()
+    {
+        if (!is_admin()) {
+            $options = get_option('polylang');
+            foreach ($options['domains'] as $locale => $domain) {
+                if (str_contains($_SERVER['HTTP_HOST'], parse_url($domain, PHP_URL_HOST))) {
+                    $subDomain = sprintf('%s://%s', parse_url($domain, PHP_URL_SCHEME), $_SERVER['HTTP_HOST']);
+                    $options['domains'][$locale] = $subDomain;
+                }
+            }
+            update_option('polylang', $options);
+        }
+    }
+
+    /**
      * True if Polylang is enabled and has a language.
      *
      * @return bool
