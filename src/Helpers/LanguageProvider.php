@@ -13,7 +13,7 @@ class LanguageProvider
         if (!is_admin()) {
             add_filter('option_polylang', function ($options) {
                 foreach ($options['domains'] as $locale => $domain) {
-                    if (str_contains($_SERVER['HTTP_HOST'], parse_url($domain, PHP_URL_HOST))) {
+                    if (str_contains(parse_url($domain, PHP_URL_HOST), self::getServerBaseHost())) {
                         $subDomain = sprintf('%s://%s', parse_url($domain, PHP_URL_SCHEME), $_SERVER['HTTP_HOST']);
                         $options['domains'][$locale] = $subDomain;
                     }
@@ -398,5 +398,13 @@ class LanguageProvider
             return pll_count_posts($languageCode, $args);
         }
         return 0;
+    }
+
+    private static function getServerBaseHost()
+    {
+        $parts = explode('.', $_SERVER['HTTP_HOST']);
+        $tldIndex = count($parts) - 1;
+        $hostIndex = $tldIndex - 1;
+        return sprintf('%s.%s', $parts[$hostIndex], $parts[$tldIndex]);
     }
 }
