@@ -9,6 +9,8 @@ class OffloadS3
         add_filter('as3cf_object_meta', [$this, 'setDownloadableFiles']);
 
         add_action('option_tantan_wordpress_s3', [$this, 'setOptions']);
+
+        add_filter('intermediate_image_sizes_advanced', [$this, 'disableResizing']);
     }
 
     public function setDownloadableFiles($args)
@@ -52,5 +54,12 @@ class OffloadS3
         }
 
         return array_merge($currentOptions, $overrideOptions);
+    }
+
+    public function disableResizing(array $sizes)
+    {
+        // To avoid having WordPress resize images, when we are using Imgix,
+        // we need to return an empty array, to disable all sizes.
+        return [];
     }
 }
