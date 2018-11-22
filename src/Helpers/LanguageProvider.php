@@ -14,11 +14,7 @@ class LanguageProvider
             add_filter('option_polylang', function ($options) {
                 foreach ($options['domains'] as $locale => $domain) {
                     if (str_contains(parse_url($domain, PHP_URL_HOST), self::getServerBaseHost())) {
-                        $subDomain = sprintf(
-                            '%s://%s',
-                            parse_url($domain, PHP_URL_SCHEME),
-                            parse_url($_SERVER['HTTP_HOST'], PHP_URL_HOST)
-                        );
+                        $subDomain = sprintf('%s://%s', parse_url($domain, PHP_URL_SCHEME), $_SERVER['HTTP_HOST']);
                         $options['domains'][$locale] = $subDomain;
                     }
                 }
