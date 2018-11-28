@@ -11,6 +11,8 @@ class OffloadS3
         add_action('option_tantan_wordpress_s3', [$this, 'setOptions']);
 
         add_filter('intermediate_image_sizes_advanced', [$this, 'disableResizing']);
+
+        add_filter('sanitize_file_name', [$this, 'sanitizeFileName'], 10);
     }
 
     public function setDownloadableFiles($args)
@@ -61,5 +63,11 @@ class OffloadS3
         // To avoid having WordPress resize images, when we are using Imgix,
         // we need to return an empty array, to disable all sizes.
         return [];
+    }
+
+    public function sanitizeFileName(string $filename)
+    {
+        list($name, $extension) = preg_split('/\./', $filename, 2, PREG_SPLIT_NO_EMPTY);
+        return sprintf('%s.%s', sanitize_title($name), $extension);
     }
 }
