@@ -44,7 +44,17 @@ class LanguageProvider
     public static function getCurrentLanguage(string $format = 'slug'): ?string
     {
         if (function_exists('pll_current_language')) {
-            return pll_current_language($format);
+            $language = pll_current_language($format);
+            if (!$language) {
+                $options = get_option('polylang');
+                if (isset($options['domains'])) {
+                    foreach ($options['domains'] as $locale => $domain) {
+                        if (parse_url(get_site_url(), PHP_URL_HOST) === parse_url($domain, PHP_URL_HOST)) {
+                            return $locale;
+                        }
+                    }
+                }
+            }
         }
 
         return null;
