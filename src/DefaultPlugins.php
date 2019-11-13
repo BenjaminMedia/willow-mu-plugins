@@ -10,6 +10,7 @@ class DefaultPlugins
         'contenthub-editor/contenthub-editor.php',
         'polylang-pro/polylang.php',
         'wp-bonnier-redirect/wp-bonnier-redirect.php',
+        'wp-bonnier-sitemap/wp-bonnier-sitemap.php',
         'wp-site-manager/wp-site-manager.php',
         'wp-cxense/wp-cxense.php',
     ];
