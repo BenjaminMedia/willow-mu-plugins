@@ -408,7 +408,6 @@ class LanguageProvider
             if (isset($termTranslations[$language])) {
                 return true;
             }
-
         }
 
         return null;
