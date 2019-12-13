@@ -400,6 +400,20 @@ class LanguageProvider
         return 0;
     }
 
+    public static function isTermTranslated(int $termId, string $language)
+    {
+        if (function_exists('pll_get_term_translations')) {
+            $termTranslations = pll_get_term_translations($termId);
+
+            if (isset($termTranslations[$language])) {
+                return true;
+            }
+
+        }
+
+        return null;
+    }
+
     private static function getServerBaseHost()
     {
         $parts = explode('.', $_SERVER['HTTP_HOST']);
