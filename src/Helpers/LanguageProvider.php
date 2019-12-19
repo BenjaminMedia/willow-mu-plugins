@@ -278,11 +278,12 @@ class LanguageProvider
      */
     public static function getHomeUrl(string $path = '', ?string $languageCode = null): string
     {
+        $homeUrl = home_url('');
         if (function_exists('pll_home_url')) {
-            return pll_home_url($languageCode) . $path;
+            $homeUrl = pll_home_url($languageCode);
         }
 
-        return home_url($path);
+        return sprintf('%s/%s', rtrim($homeUrl, '/'), ltrim($path, '/'));
     }
 
     /**
