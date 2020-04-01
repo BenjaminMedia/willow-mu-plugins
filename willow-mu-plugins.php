@@ -4,7 +4,7 @@ Plugin Name: Willow Must Use Plugins
 Plugin URI: https://github.com/BenjaminMedia/willow-mu-plugins
 Description: A collection of Must Use WordPress Plugins for Willow
 Author: Bonnier Publications
-Version: 1.5.0
+Version: 1.5.1
 */
 
 new \Bonnier\Willow\MuPlugins\AdminCookie();

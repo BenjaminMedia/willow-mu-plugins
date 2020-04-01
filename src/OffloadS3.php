@@ -67,7 +67,10 @@ class OffloadS3
 
     public function sanitizeFileName(string $filename)
     {
-        list($name, $extension) = preg_split('/\./', $filename, 2, PREG_SPLIT_NO_EMPTY);
-        return sprintf('%s.%s', sanitize_title($name), $extension);
+        if (str_contains($filename, '.')) {
+            list($name, $extension) = preg_split('/\./', $filename, 2, PREG_SPLIT_NO_EMPTY);
+            return sprintf('%s.%s', $name, $extension);
+        }
+        return sanitize_title($filename);
     }
 }
