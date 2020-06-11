@@ -10,6 +10,8 @@ class AdminCookie
         if (preg_match('/([a-z0-9-]+\.[a-z]+$)/', parse_url($topLevelDomain, PHP_URL_HOST), $matches)) {
             $topLevelDomain = $matches[1];
         }
-        define('COOKIE_DOMAIN', $topLevelDomain);
+        if (!defined('COOKIE_DOMAIN')) {
+            define('COOKIE_DOMAIN', $topLevelDomain);
+        }
     }
 }
