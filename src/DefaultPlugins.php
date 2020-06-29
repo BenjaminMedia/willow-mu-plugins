@@ -7,7 +7,6 @@ class DefaultPlugins
     private $plugins = [
         'advanced-custom-fields-pro/acf.php',
         'amazon-s3-and-cloudfront/wordpress-s3.php',
-        'contenthub-editor/contenthub-editor.php',
         'polylang-pro/polylang.php',
         'wp-bonnier-redirect/wp-bonnier-redirect.php',
         'wp-bonnier-sitemap/wp-bonnier-sitemap.php',
