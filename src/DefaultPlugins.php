@@ -17,7 +17,7 @@ class DefaultPlugins
 
     public function __construct()
     {
-        if (env('WP_ENV') !== 'testing') {
+        if (getenv('WP_ENV') !== 'testing') {
             add_action('option_active_plugins', [$this, 'activatePlugin']);
         }
     }
