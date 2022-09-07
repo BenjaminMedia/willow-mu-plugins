@@ -14,9 +14,9 @@
         "illuminate/support": "^7.30"
     },
     "require-dev": {
-        "johnpbloch/wordpress": "^4.9",
         "lucatume/wp-browser": "^3.1",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "johnpbloch/wordpress": "^5.8"
     },
     "autoload": {
         "psr-4": {
