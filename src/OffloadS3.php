@@ -40,17 +40,17 @@ class OffloadS3
     public function setOptions($currentOptions)
     {
         $overrideOptions = [
-            'bucket' => env('AWS_S3_BUCKET', 'wp-uploads.interactives.dk'),
-            'object-prefix' => env('AWS_S3_UPLOADS_PATH'),
+            'bucket' => getenv('AWS_S3_BUCKET', 'wp-uploads.interactives.dk'),
+            'object-prefix' => getenv('AWS_S3_UPLOADS_PATH'),
             'remove-local-file' => 1,
             'licence' => '',
             'copy-to-s3' => 1,
             'serve-from-s3' => 1,
-            'region' => env('AWS_S3_REGION', 'eu-west-1')
+            'region' => getenv('AWS_S3_REGION', 'eu-west-1')
         ];
 
         // By setting the AWS_S3_DOMAIN env option you may control the domain files are served from
-        if ($domain = env('AWS_S3_DOMAIN')) {
+        if ($domain = getenv('AWS_S3_DOMAIN')) {
             $overrideOptions['cloudfront'] = $domain;
             $overrideOptions['domain'] = 'cloudfront';
         }
