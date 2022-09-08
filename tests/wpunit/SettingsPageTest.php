@@ -26,9 +26,9 @@ class SettingsPageTest extends WPTestCase
     private $checkboxKey = 'test_setting_checkbox';
     private $selectKey = 'test_setting_select';
 
-    public function setUp()
+    public function _setUp()
     {
-        parent::setUp();
+        parent::_setUp();
         $this->constructorArgs = [
             'settingsKey' => $this->settingsKey,
             'settingsGroup' => $this->settingsGroup,
